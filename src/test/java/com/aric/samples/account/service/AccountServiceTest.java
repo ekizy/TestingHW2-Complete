@@ -2,6 +2,8 @@ package com.aric.samples.account.service;
 
 import com.aric.samples.account.model.Account;
 import com.aric.samples.account.repository.AccountRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -27,9 +29,14 @@ public class AccountServiceTest {
     public Account sampleAccount2;
     public Account sampleAccount3;
 
+    public List<Account> sampleList;
+    public ObjectMapper mapper;
+
 
     @Before
     public void setup() throws Exception {
+
+        mapper = new ObjectMapper();
 
         sampleAccount1 = new Account();
         sampleAccount1.setId(1);
@@ -52,7 +59,7 @@ public class AccountServiceTest {
         sampleAccount2.setOwnerLastName("Bekir");
         sampleAccount2.setOwnerTckn(125);
 
-        List<Account> sampleList = new ArrayList<Account>();
+        sampleList = new ArrayList<Account>();
 
         mockAccountRepository = Mockito.mock(AccountRepository.class);
 
@@ -103,6 +110,18 @@ public class AccountServiceTest {
         Account newAccount = accountService.eft(senderID,receiverID,SAMPLE_AMOUNT);
 
         assertEquals(senderOldBalance-SAMPLE_AMOUNT,newAccount.getBalance(),DELTA);
+    }
+
+    @Test
+    public void testFindPersonsByTckn() throws JsonProcessingException {
+        List<Account> accounts = accountService.findPersonsByTckn(125);
+
+        String jsonStringOfresult = mapper.writeValueAsString(accounts);
+        String jsonStringOfSampleList = mapper.writeValueAsString(sampleList);
+
+        assertEquals(jsonStringOfresult,jsonStringOfSampleList);
+
+
     }
 
 }
