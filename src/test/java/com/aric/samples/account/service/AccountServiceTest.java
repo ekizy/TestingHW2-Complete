@@ -59,20 +59,21 @@ public class AccountServiceTest {
         sampleAccount2.setOwnerLastName("Bekir");
         sampleAccount2.setOwnerTckn(125);
 
+        //Created mock accounts
         sampleList = new ArrayList<Account>();
 
-        mockAccountRepository = Mockito.mock(AccountRepository.class);
+        mockAccountRepository = Mockito.mock(AccountRepository.class);//Mocked repository object
 
         Field field = ReflectionUtils.findField(AccountService.class,"accountRepository");
         ReflectionUtils.makeAccessible(field);
-        ReflectionUtils.setField(field,accountService,mockAccountRepository);
+        ReflectionUtils.setField(field,accountService,mockAccountRepository); //changed the repository field of service with Mocked repository
 
 
-        //A list which has accounts with tckn = 125
+        //A list which has accounts only with TCKN = 125
         sampleList.add(sampleAccount1);
         sampleList.add(sampleAccount3);
 
-        Mockito.when(mockAccountRepository.findByOwnerTckn(125)).thenReturn(sampleList);
+        Mockito.when(mockAccountRepository.findByOwnerTckn(125)).thenReturn(sampleList); //Mock repository methods.
         Mockito.when(mockAccountRepository.findOne(new Long(1))).thenReturn(sampleAccount1);
         Mockito.when(mockAccountRepository.findOne(new Long(2))).thenReturn(sampleAccount2);
         Mockito.when(mockAccountRepository.findOne(new Long(3))).thenReturn(sampleAccount3);
@@ -90,12 +91,12 @@ public class AccountServiceTest {
     @Test
     public void testDeposit() throws Exception {
 
-        Long accountID = sampleAccount1.getId();
-        double oldBalance = sampleAccount1.getBalance();
+        Long accountID = sampleAccount1.getId(); //get account id
+        double oldBalance = sampleAccount1.getBalance(); //get old balance for comparison
 
-        Account newAccount = accountService.deposit(accountID,SAMPLE_AMOUNT);
+        Account newAccount = accountService.deposit(accountID,SAMPLE_AMOUNT); //deposit an action
 
-        assertEquals(oldBalance + SAMPLE_AMOUNT,newAccount.getBalance(),DELTA);
+        assertEquals(oldBalance + SAMPLE_AMOUNT,newAccount.getBalance(),DELTA); //compare new balance with old + amount
 
 
     }
@@ -103,17 +104,19 @@ public class AccountServiceTest {
     @Test
     public void testEft() {
         Long senderID = sampleAccount1.getId();
-        Long receiverID = sampleAccount2.getId();
+        Long receiverID = sampleAccount2.getId(); // get accounts' ids.
 
-        double senderOldBalance = sampleAccount1.getBalance();
+        double senderOldBalance = sampleAccount1.getBalance(); //get sender's old balance
 
-        Account newAccount = accountService.eft(senderID,receiverID,SAMPLE_AMOUNT);
+        Account newAccount = accountService.eft(senderID,receiverID,SAMPLE_AMOUNT); // it will return sender with new value.
 
-        assertEquals(senderOldBalance-SAMPLE_AMOUNT,newAccount.getBalance(),DELTA);
+        assertEquals(senderOldBalance-SAMPLE_AMOUNT,newAccount.getBalance(),DELTA); //compare values
     }
 
     @Test
     public void testFindPersonsByTckn() throws JsonProcessingException {
+        //Test that findPersonsByTckn returns true list or not.
+
         List<Account> accounts = accountService.findPersonsByTckn(125);
 
         String jsonStringOfresult = mapper.writeValueAsString(accounts);

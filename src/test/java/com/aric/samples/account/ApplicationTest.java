@@ -22,7 +22,6 @@ public class ApplicationTest {
 
         String tempArray [] = {"arg1","arg2"};
         application.main(tempArray);
-
         //check application can be run or not
     }
 

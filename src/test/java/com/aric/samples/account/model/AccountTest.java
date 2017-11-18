@@ -33,7 +33,7 @@ public class AccountTest {
 	public void testSetOwnerTckn(){
 		long newTCKN = 12345;
 		sampleAccount.setOwnerTckn(newTCKN);
-		assertEquals(newTCKN,sampleAccount.getOwnerTckn());
+		assertEquals(newTCKN,sampleAccount.getOwnerTckn());//check values
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class AccountTest {
 	public void testSetId(){
 		long newID = 12345678;
 		sampleAccount.setId(newID);
-		assertEquals(newID,sampleAccount.getId());
+		assertEquals(newID,sampleAccount.getId());//check values
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class AccountTest {
 	public void testSetBalance(){
 		double newBalance = 123.5;
 		sampleAccount.setBalance(newBalance);
-		assertEquals(newBalance,sampleAccount.getBalance(),DELTA);
+		assertEquals(newBalance,sampleAccount.getBalance(),DELTA);//check values
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class AccountTest {
 	public void testSetOwnerFirstName(){
 		String newFirstName = "Ceyda";
 		sampleAccount.setOwnerFirstName(newFirstName);
-		assertEquals(newFirstName,sampleAccount.getOwnerFirstName());
+		assertEquals(newFirstName,sampleAccount.getOwnerFirstName()); //check values
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class AccountTest {
 	public void testSetOwnerLastName(){
 		String newLastName = "Aladağ";
 		sampleAccount.setOwnerLastName(newLastName);
-		assertEquals(newLastName,sampleAccount.getOwnerLastName());
+		assertEquals(newLastName,sampleAccount.getOwnerLastName());//check values
 	}
 
 	@Test
@@ -93,27 +93,27 @@ public class AccountTest {
 	public void depositSuccess(){
         int sampleAmount = 20;
         sampleAccount.deposit(sampleAmount);
-        assertEquals(sampleAmount + SAMPLE_BALANCE,sampleAccount.getBalance(),DELTA);
+        assertEquals(sampleAmount + SAMPLE_BALANCE,sampleAccount.getBalance(),DELTA);//check values
 	}
 
 	@Test
 	public void depositFail(){
 	    int illegalAmount = -15;
-        thrown.expect(IllegalArgumentException.class);
-        sampleAccount.deposit(illegalAmount);
+        thrown.expect(IllegalArgumentException.class); //Expect an exception,because amount is negative
+        sampleAccount.deposit(illegalAmount);//check values
 	}
 
 	@Test
 	public void withdrawSuccess(){
         int sampleAmount =  1000;
         sampleAccount.withdraw(sampleAmount);
-        assertEquals(SAMPLE_BALANCE - sampleAmount,sampleAccount.getBalance(),DELTA);
+        assertEquals(SAMPLE_BALANCE - sampleAmount,sampleAccount.getBalance(),DELTA);//check values
 	}
 
 	@Test
 	public void withdrawFail(){
         int sampleAmount = 1400;
-	    thrown.expect(IllegalArgumentException.class);
+	    thrown.expect(IllegalArgumentException.class);//Expect an exception, because amount is bigger than balance
 	    sampleAccount.withdraw(sampleAmount);
 	}
 
